@@ -40,4 +40,19 @@ html, body, #app, #app>div {
   to {
     transform: rotate(360deg);
   }
+
+}
+
+.music {
+  position: fixed;
+  bottom: 0;
+  left : 0;
+  width: 100%;
+}
+
+.pictures img{
+  position: static;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100vw;
 }

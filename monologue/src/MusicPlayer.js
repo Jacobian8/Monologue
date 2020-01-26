@@ -59,29 +59,33 @@ function MusicPlayer() {
 
     return (
     <div>
-        <AliceCarousel
-        autoPlayInterval={2000}
-        autoPlayDirection="rtl"
-        autoPlay={true}
-        fadeOutAnimation={true}
-        dotsDisabled={true}
-        buttonsDisabled={true}
-        autoHeight={true}
-        >
-        <img src={galleryItems[0]} />
-        <img src={galleryItems[1]} />
-        <img src={galleryItems[2]} />
-        </AliceCarousel>
-        <AudioPlayer
-        autoPlay
-        src={music}
-        onPlay={e => console.log("onPlay")}
-        onClickPrevious={handlePrev}
-        showSkipControls = {true}
-        onEnded = {handleNext}
-        onClickPrevious = {handlePrev}
-        onClickNext = {handleNext}
-        />
+        <div class="pictures">
+            <AliceCarousel
+            autoPlayInterval={2000}
+            autoPlayDirection="rtl"
+            autoPlay={true}
+            fadeOutAnimation={true}
+            dotsDisabled={true}
+            buttonsDisabled={true}
+            autoHeight={false}
+            >
+                <img src={galleryItems[0]} />
+                <img src={galleryItems[1]} />
+                <img src={galleryItems[2]} />
+            </AliceCarousel>
+        </div>
+        <div class="music">
+            <AudioPlayer
+            autoPlay
+            src={music}
+            onPlay={e => console.log("onPlay")}
+            onClickPrevious={handlePrev}
+            showSkipControls = {true}
+            onEnded = {handleNext}
+            onClickPrevious = {handlePrev}
+            onClickNext = {handleNext}
+            />
+        </div>
     </div>
     )
 };

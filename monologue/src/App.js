@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   musicModal: {
-    height: '70%',
+    height: 'auto',
     width: '100%',
   },
 }));
@@ -102,7 +102,7 @@ function App() {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.musicModal}
-        open={true}
+        open={false}
         closeAfterTransition
         BackdropProps={{
             timeout: 500,
