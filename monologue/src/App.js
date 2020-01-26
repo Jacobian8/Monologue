@@ -1,9 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline} from '@material-ui/core';
+import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import {blue, red} from '@material-ui/core/colors/purple';
 import { makeStyles } from '@material-ui/core/styles';
+import MonologueAppbar from './MonologueAppbar.js';
+import MessageBubble from './MessageBubble.js'
 import './App.css';
 
 const theme = createMuiTheme({
@@ -34,31 +36,37 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   toolbar: theme.mixins.toolbar,
+  messages: {
+    height: `calc(100% - ${appbarHeight}px)`,
+  },
+  chatBubbles:{
+    padding: theme.spacing(1),
+  },
+  messageInput:{
+    padding: theme.spacing(1),
+  },
   appBar: {
     height: appbarHeight,
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
   },
-  messages: {
-    height: `calc(100% - ${appbarHeight}px)`,
-    padding: 10,
-  }
+  modal: {
+    display: 'flex',
+    padding: theme.spacing(1),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 function App() {
+  const rootRef = React.useRef(null);
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <CssBaseline />
       <ThemeProvider theme={theme}>      
         </ThemeProvider>
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" noWrap>
-              Monologue
-            </Typography>
-          </Toolbar>
-        </AppBar>
+          <MonologueAppbar rootRef={rootRef} classes={classes}/>
         <Drawer
         variant="permanent"
         anchor="left"
@@ -76,13 +84,17 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Grid container direction='column' justify='flex-end' className={classes.messages}>
-            Messages
+            <Grid container direction='column' justify='flex-end' className={classes.chatBubbles}>
+              <MessageBubble />
+              <MessageBubble />
+              <MessageBubble />
+            </Grid>
             <Divider />
-            <TextField variant='outlined' label='Message'></TextField>
+            <TextField variant='outlined' label='Message' className={classes.messageInput}></TextField>
         </Grid>
       </main>
     </div>
   );
-}
+};
 
 export default App;
