@@ -9,11 +9,14 @@ function MusicPlayer() {
     const song1 = "https://conuhacks-2020.tsp.cld.touchtunes.com/v1/songs/7782908";
     const song2 = "https://conuhacks-2020.tsp.cld.touchtunes.com/v1/songs/62435015";
     const song3 = "https://conuhacks-2020.tsp.cld.touchtunes.com/v1/songs/62435011";
-    const img1 = "https://image.shutterstock.com/z/stock-vector-innovations-systems-connecting-people-and-robots-devices-future-technologies-in-automatics-cyborg-1061543018.jpg";
+    const img1 = "https://image.shutterstock.com/z/stock-photo-abstract-polygonal-space-low-poly-dark-background-with-connecting-dots-and-lines-connection-550182499.jpg";
     const img2 = "https://image.shutterstock.com/z/stock-vector-touch-the-future-interface-technology-the-future-of-user-experience-503854255.jpg";
-    const img3 = "https://image.shutterstock.com/z/stock-photo-woman-with-glasses-of-virtual-reality-future-technology-concept-528831091.jpg";
+    const img3 = "https://image.shutterstock.com/z/stock-photo-male-it-specialist-holds-laptop-and-discusses-work-with-female-server-technician-they-re-standing-661113826.jpg";
+    const img4 = "https://image.shutterstock.com/z/stock-vector-abstract-lines-and-dots-connect-background-technology-connection-digital-data-and-big-data-concept-1492332182.jpg"
+    const img5 = "https://image.shutterstock.com/z/stock-photo-digital-marketing-businessman-using-modern-interface-payments-online-shopping-and-icon-customer-1053868622.jpg"
+    const img6 = "https://image.shutterstock.com/z/stock-vector-abstract-artificial-intelligence-technology-web-background-virtual-concept-728178127.jpg"
     const songs = [song1,song2,song3]
-    const galleryItems = [img1, img2, img3]
+    const galleryItems = [img1, img2, img3, img4, img5, img6]
 
     const [musiccode, setmusiccode] = useState(0);
     const [music, setmusic] = useState("");
@@ -72,6 +75,9 @@ function MusicPlayer() {
                 <img src={galleryItems[0]} />
                 <img src={galleryItems[1]} />
                 <img src={galleryItems[2]} />
+                <img src={galleryItems[3]} />
+                <img src={galleryItems[4]} />
+                <img src={galleryItems[5]} />
             </AliceCarousel>
         </div>
         <div class="music">
