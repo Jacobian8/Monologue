@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper, Backdrop, Modal} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import {blue, red} from '@material-ui/core/colors/purple';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import MonologueAppbar from './MonologueAppbar.js';
 import MessageBubble from './MessageBubble.js'
 import './App.css';
@@ -18,8 +19,6 @@ const app = firebase.initializeApp({
 
 const db = app.firestore();
 
-var notifications = []
-
 const theme = createMuiTheme({
   palette: {
     primary: blue,
@@ -29,7 +28,7 @@ const theme = createMuiTheme({
 
 const drawerWidth = 240;
 const appbarHeight = 64;
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     display: 'flex',
   },
@@ -69,75 +68,122 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   musicModal: {
-    height: 'auto',
-    width: '100%',
+    height: '90%',
+    width: '90%',
   },
-}));
+});
 
-function App() {
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      breakTime: false
+    }
+    this.rootRef = React.createRef();
+    this.messages = [];
+    this.notifications = [];
+  }
+  
+  componentDidMount() {
+    setInterval(
+      this.triggerMusic,
+      1000
+    );
+  }
 
-  db.collection('notifs').get()
-  .then((snapshot) => {
-    let new_list = []
-    snapshot.forEach((doc) => {
-      new_list += doc.data()['text']
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  triggerMusic = async () => {
+    console.log(this.state.breakTime)
+    // await this.setState((state) => {
+    //   return ({breakTime: !state.breakTime});
+    // });
+    if(!this.state.breakTime){
+      this.getMessages();
+    }
+  }
+
+  getMessages = () => {
+    db.collection('notifs').get()
+    .then((snapshot) => {
+      let new_list = []
+      snapshot.forEach((doc) => {
+        new_list.push(doc.data()['text']);
+      });
+      this.notifications = new_list;     
+      this.updateMessagesList(new_list);
+    })
+    .catch((err) => {
+      console.log('Error getting documents', err);
     });
-    notifications = new_list;
-    // console.log(notifications);
-  })
-  .catch((err) => {
-    console.log('Error getting documents', err);
-  });
+  }
 
+  updateMessagesList = (notifications) => {
+    this.messages = [];
+    notifications.forEach(element => {
+      console.log(element);
+      this.messages.push(<Grid><MessageBubble message={element}/></Grid> );
+    });
+    this.forceUpdate();
+  }
+  
 
-  const rootRef = React.useRef(null);
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>      
-        </ThemeProvider>
-          <MonologueAppbar rootRef={rootRef} classes={classes}/>
-        <Drawer
-        variant="permanent"
-        anchor="left"
-        className={classes.drawer}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        >
-          <List>
-            <ListItem>item</ListItem>
-            <ListItem>item</ListItem>
-            <ListItem>item</ListItem>
-          </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Grid container direction='column' justify='flex-end' className={classes.messages}>
-            <Grid container direction='column' justify='flex-end' className={classes.chatBubbles}>
-              <MessageBubble />
-              <MessageBubble />
-              <MessageBubble />
-            </Grid>
-            <Divider />
-            <TextField variant='outlined' label='Message' className={classes.messageInput}></TextField>
-        </Grid>
-      </main>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.musicModal}
-        open={false}
-        closeAfterTransition
-        BackdropProps={{
-            timeout: 500,
-        }}
-        >
-          <MusicPlayer />
-        </Modal>
-    </div>
-  );
+  render(){
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>      
+          </ThemeProvider>
+            <MonologueAppbar rootRef={this.rootRef} classes={classes}/>
+          <Drawer
+          variant="permanent"
+          anchor="left"
+          className={classes.drawer}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          >
+            <List>
+              <ListItem>Slack</ListItem>
+              <ListItem>Twitter</ListItem>
+            </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Grid container direction='column' justify='flex-end' className={classes.messages}>
+              <Grid container item direction="column" justify='flex-end' className={classes.chatBubbles} xs={10}>
+                {this.messages}
+              </Grid>
+              <Divider />
+              <Grid item>
+                <TextField variant='outlined' label='Message' className={classes.messageInput} xs={2}></TextField>
+              </Grid>
+          </Grid>
+        </main>
+        {this.state.breakTime &&
+          <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.musicModal}
+          open={true}
+          closeAfterTransition
+          BackdropProps={{
+              timeout: 500,
+          }}
+          >
+            <MusicPlayer />
+          </Modal>
+        }
+      </div>
+    );
+  }
+}
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
 
-export default App;
+export default withStyles(styles)(App);
