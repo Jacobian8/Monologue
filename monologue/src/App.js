@@ -36,7 +36,7 @@ function App() {
 
  const handlePrev=(e) =>{
   e.preventDefault();
-    if(musiccode == 0){
+    if(musiccode === 0){
       setmusiccode(2)
     }else{
       let newcode = musiccode-1;
@@ -47,7 +47,7 @@ function App() {
 
   const handleNext = e =>{
     e.preventDefault();
-    if(musiccode == 2){
+    if(musiccode === 2){
       setmusiccode(0)
     }else{
       let newcode = musiccode+1;
@@ -59,7 +59,7 @@ function App() {
   useEffect(()=>(fetchSongs(songs[musiccode])),[]);
 
   return (
-    <div class="center-fit">
+    <div>
       <AliceCarousel
         autoPlayInterval={2000}
         autoPlayDirection="rtl"
@@ -82,7 +82,6 @@ function App() {
         onEnded = {handleNext}
         onClickPrevious = {handlePrev}
         onClickNext = {handleNext}
-        // other props here
       />
     </div>
   )
