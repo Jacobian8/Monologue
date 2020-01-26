@@ -9,6 +9,17 @@ import MessageBubble from './MessageBubble.js'
 import './App.css';
 import MusicPlayer from './MusicPlayer';
 
+import * as firebase from 'firebase';
+const app = firebase.initializeApp({
+  apiKey: 'AIzaSyCfnaKZmm3ytS64A-x7Dm3d-pLckN18Dog',
+  authDomain: 'localhost',
+  projectId: 'monologue-266217'
+});
+
+const db = app.firestore();
+
+var notifications = []
+
 const theme = createMuiTheme({
   palette: {
     primary: blue,
@@ -64,6 +75,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
+
+  db.collection('notifs').get()
+  .then((snapshot) => {
+    let new_list = []
+    snapshot.forEach((doc) => {
+      new_list += doc.data()['text']
+    });
+    notifications = new_list;
+    // console.log(notifications);
+  })
+  .catch((err) => {
+    console.log('Error getting documents', err);
+  });
+
+
   const rootRef = React.useRef(null);
   const classes = useStyles();
   return (
