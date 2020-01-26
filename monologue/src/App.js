@@ -1,12 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
-import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper} from '@material-ui/core';
+import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper, Backdrop, Modal} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import {blue, red} from '@material-ui/core/colors/purple';
 import { makeStyles } from '@material-ui/core/styles';
 import MonologueAppbar from './MonologueAppbar.js';
 import MessageBubble from './MessageBubble.js'
 import './App.css';
+import MusicPlayer from './MusicPlayer';
 
 const theme = createMuiTheme({
   palette: {
@@ -56,6 +57,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  musicModal: {
+    height: '70%',
+    width: '100%',
+  },
 }));
 
 function App() {
@@ -93,6 +98,18 @@ function App() {
             <TextField variant='outlined' label='Message' className={classes.messageInput}></TextField>
         </Grid>
       </main>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.musicModal}
+        open={true}
+        closeAfterTransition
+        BackdropProps={{
+            timeout: 500,
+        }}
+        >
+          <MusicPlayer />
+        </Modal>
     </div>
   );
 };
