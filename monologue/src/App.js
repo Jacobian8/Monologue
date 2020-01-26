@@ -71,19 +71,6 @@ const styles = theme => ({
     height: '90%',
     width: '90%',
   },
-
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '0.4em'
-    },
-    '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-    },
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(0,0,0,.1)',
-      outline: '1px solid slategrey'
-    }
-  }
 });
 
 class App extends React.Component{
@@ -177,11 +164,13 @@ class App extends React.Component{
               <Grid container item direction="column" justify='flex-end' className={classes.chatBubbles} xs={10}>
                 {this.messages}
               </Grid>
-              <Divider />
-              <Grid item>
-                <TextField id = 'sendMessage' ariant='outlined' label='Message' className={classes.messageInput} xs={2}></TextField>
+              <Grid container>
+                <Divider />
+                <Grid item>
+                  <TextField ariant='outlined' label='Message' className={classes.messageInput} xs={2}></TextField>
+                </Grid>
+                <Button>Send</Button>
               </Grid>
-              <Button class='submit'>Send</Button>
           </Grid>
         </main>
         {this.state.breakTime &&
