@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import logo from './logo.svg';
-import {Grid, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper, Backdrop, Modal} from '@material-ui/core';
+import {Grid, Button, List, Divider, Drawer, TextField, ListItem, ThemeProvider, Container, Box, AppBar, Toolbar, Typography, CssBaseline, Paper, Backdrop, Modal} from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import {blue, red} from '@material-ui/core/colors/purple';
 import { withStyles } from '@material-ui/core/styles';
@@ -71,6 +71,19 @@ const styles = theme => ({
     height: '90%',
     width: '90%',
   },
+
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '1px solid slategrey'
+    }
+  }
 });
 
 class App extends React.Component{
@@ -128,6 +141,13 @@ class App extends React.Component{
     });
     this.forceUpdate();
   }
+
+  sendMessage = () => {
+    var submitText = document.getElementById('sendMessage-label').nodeValue;
+    module.exports = {
+      submitText : submitText
+    }
+  }
   
 
   render(){
@@ -159,8 +179,9 @@ class App extends React.Component{
               </Grid>
               <Divider />
               <Grid item>
-                <TextField variant='outlined' label='Message' className={classes.messageInput} xs={2}></TextField>
+                <TextField id = 'sendMessage' ariant='outlined' label='Message' className={classes.messageInput} xs={2}></TextField>
               </Grid>
+              <Button class='submit'>Send</Button>
           </Grid>
         </main>
         {this.state.breakTime &&
