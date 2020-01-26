@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Avatar, Paper, Grid, Typography, } from '@material-ui/core';
 
 class MessageBubble extends React.Component{
-
+    constructor(props){
+        super(props)
+    }
     render(){
         return(
             <>
@@ -12,7 +15,7 @@ class MessageBubble extends React.Component{
                     </Grid>
                     <Grid item xs={5}>
                         <Paper>
-                            <Typography>Hello World</Typography>
+                            <Typography>{this.props.message}</Typography>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -20,5 +23,9 @@ class MessageBubble extends React.Component{
         );
     }
 }
+
+MessageBubble.propTypes = {
+    message: PropTypes.string.isRequired,
+};
 
 export default MessageBubble
